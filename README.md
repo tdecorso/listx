@@ -3,7 +3,7 @@
 This implementation is backed by an arena allocation technique that optimized cache behavior for nodes handling. You can find in my repos a more traditional implementation of the linked list without this optimization.
 
 ## Usage
-Just include the **list.h** header in your project.
+Just include the **list.h** and the **arena.h** headers in your project.
 
 ### List Allocation and Deallocation
 ```
