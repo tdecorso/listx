@@ -60,7 +60,7 @@ Measured over 1e6 iterations with 100 warmup cycles:
 | Back insert  (10000)      | 46.26 µs | 51.62 µs   | 175.33 µs |
 | Traversal    (10000)      | 58.51 µs | 72.76 µs   | 199.90 µs |
 
-For comparison, my benchmarks show that inserting one element in this list is approximately **2.6** times slower than in my dynamic array.
+For comparison, my benchmarks show that inserting one element in this list is **~2.6** times slower than in my dynamic array.
 
 ## Improvements of the arena allocation
 Insertion is **~8-9x** faster on the arena, and traversal is **~7x** faster: arena enables contiguous nodes, while traditional nodes may be scattered across the heap. That makes pointers chasing easier for the CPU.
