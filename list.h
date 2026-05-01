@@ -131,10 +131,10 @@ void* list_insert_at(list_t* list, size_t index) {
     node_t* it = NULL;
     if (index >= list->count / 2) {
         it = list->tail;
-        size_t i = 0;
-        while (it && i < index) {
+        size_t i = list->count - 1;
+        while (it && i > index) {
             it = it->prev;
-            i += 1;
+            i -= 1;
         }
     }
     else {
@@ -189,10 +189,10 @@ void list_delete_at(list_t* list, size_t index, void* dest) {
     node_t* it = NULL;
     if (index >= list->count / 2) {
         it = list->tail;
-        size_t i = 0;
-        while (it && i < index) {
+        size_t i = list->count - 1;
+        while (it && i > index) {
             it = it->prev;
-            i += 1;
+            i -= 1;
         }
     }
     else {

@@ -191,6 +191,7 @@ int main(void) {
         list_free(l);
     };
 
+
     TEST_SECTION("List insert at arbitrary node") {
 
         l = list_alloc(sizeof(int), MAX_NODES);
@@ -198,42 +199,40 @@ int main(void) {
         int* first  = list_insert_back(l);
         int* second = list_insert_back(l);
         int* third  = list_insert_back(l);
+        int* fourth = list_insert_back(l);
+        int* fifth  = list_insert_back(l);
+        int* sixth  = list_insert_back(l);
 
-        *first = 1;
+        *first  = 1;
         *second = 2;
-        *third = 3;
+        *third  = 3;
+        *fourth = 4;
+        *fifth  = 5;
+        *sixth  = 6;
 
-        int* nsecond = list_insert_at(l, 1);
-        *nsecond = 4;
+        // Insert at index 1 — walks from tail since count=6, count/2=3, 1 < 3 so head walk
+        int* ins1 = list_insert_at(l, 1);
+        *ins1 = 10;
 
-        CHECK_BOOL(
-            l->head->next == l->tail->prev->prev, 
-            "Nodes pointers are correct after multiple inserts.",
-            ""
-        );
+        // Insert at index 5 — walks from tail since count=7, count/2=3, 5 >= 3
+        int* ins2 = list_insert_at(l, 5);
+        *ins2 = 20;
 
-        int at_first  = *(int*)l->head->data;
-        int at_second = *(int*)l->head->next->data;
-        int at_third  = *(int*)l->head->next->next->data;
-        int at_fourth = *(int*)l->tail->data;
+        // Expected: 1, 10, 2, 3, 4, 20, 5, 6
+        node_t* it = l->head;
+        int expected[] = {1, 10, 2, 3, 4, 20, 5, 6};
+        int ok = 1;
+        for (int i = 0; i < 8; i++, it = it->next) {
+            if (*(int*)it->data != expected[i]) { ok = 0; break; }
+        }
 
-        CHECK_BOOL(
-            at_first  == 1 && 
-            at_second == 4 && 
-            at_third  == 2 && 
-            at_fourth == 3,
-            "Nodes data is correctly updated after value assignment.",
-            ""
-        );
+        CHECK_BOOL(ok, "Nodes data is correct after insert_at from both ends.", "");
 
-        CHECK_BOOL(
-            l->count == 4,
-            "Count is correct after multiple inserts.",
-            ""
-        );
-        
+        CHECK_BOOL(l->count == 8, "Count is correct after insert_at.", "");
+
         list_free(l);
     };
+
 
     TEST_SECTION("List front delete") {
 
